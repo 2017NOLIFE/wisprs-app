@@ -1,0 +1,5 @@
+---
+  development:
+    DB_KEY: 'x8cXE4MLpGGGdX8cm5NQREoyfdPVEpKKlDGOD6xZsjQ='
+  test:
+    DB_KEY: 'VK3aUKDym0DkA6QUmqzUzFVIHiquusiwYgmNxxcBjOI='
