@@ -1,5 +1,9 @@
 ---
   development:
     DB_KEY: 'x8cXE4MLpGGGdX8cm5NQREoyfdPVEpKKlDGOD6xZsjQ='
+    API_URL: 'http://localhost:3000/api/v1'
   test:
     DB_KEY: 'VK3aUKDym0DkA6QUmqzUzFVIHiquusiwYgmNxxcBjOI='
+    API_URL: 'http://localhost:3000/api/v1'
+  production:
+    API_URL: 'https://wispers.herokuapp.com/api/v1'
