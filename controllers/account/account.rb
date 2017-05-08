@@ -15,9 +15,10 @@ class WispersApp < Sinatra::Base
     )
 
     if @current_account
-      session[:current_account] = @current_account
-      flash[:error] = "Welcome back #{@current_account['username']}"
-      slim :home
+      SecureSession.new(session).set(:current_account, @current_account)
+      puts "SESSION: #{session[:current_account]}"
+      flash[:notice] = "Welcome back #{@current_account['username']}"
+      redirect '/'
     else
       flash[:error] = 'Your username or password did not match our records'
       slim :login
@@ -26,7 +27,7 @@ class WispersApp < Sinatra::Base
 
   get '/account/logout/?' do
     @current_account = nil
-    session[:current_account] = nil
+    SecureSession.new(session).delete(:current_account)
     flash[:notice] = 'You have logged out - please login again to use this site'
     slim :login
   end
