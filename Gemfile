@@ -32,4 +32,5 @@ end
 
 group :development do
   gem 'rerun'
+  gem 'mock_redis'
 end
