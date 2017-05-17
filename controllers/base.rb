@@ -25,12 +25,32 @@ class WispersBase < Sinatra::Base
     SecureSession.setup(settings.config)
   end
 
-  #use Rack::Session::Cookie, expire_after: ONE_MONTH
-  use Rack::Session::Redis, expire_after: ONE_MONTH, redis_server: settings.config.REDIS_URL
+  # use Rack::Session::Cookie, expire_after: ONE_MONTH, secret: SecureSession.secret
+
+  configure :development, :test do
+    use Rack::Session::Pool, expire_after: ONE_MONTH
+  end
+
+  configure :production do
+    use Rack::Session::Redis, expire_after: ONE_MONTH, redis_server: settings.config.REDIS_URL
+  end
+
   use Rack::Flash
+
+  def current_account?(params)
+    @current_account && @current_account['username'] == params[:username]
+  end
+
+  def halt_if_incorrect_user(params)
+    return true if current_account?(params)
+    flash[:error] = 'You used the wrong account for this request'
+    redirect '/account/login'
+    halt
+  end
 
   before do
     @current_account = SecureSession.new(session).get(:current_account)
+    @auth_token = SecureSession.new(session).get(:auth_token)
   end
 
   get '/' do
