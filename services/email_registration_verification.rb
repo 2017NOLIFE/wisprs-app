@@ -26,7 +26,7 @@ class EmailRegistrationVerification
     token_encrypted = SecureMessage.encrypt(registration)
 
     Pony.mail(to: registration[:email],
-              subject: 'Your ShareConfig Account is Almost Ready',
+              subject: 'Your Whispers Account is Almost Ready',
               html_body: registration_email(token_encrypted))
   end
 
@@ -36,7 +36,7 @@ class EmailRegistrationVerification
     verification_url = "#{@config.APP_URL}/account/register/#{token}/verify"
 
     <<~END_EMAIL
-      <H1>ShareConfig Registration Received<H1>
+      <H1>Secure chat Registration Received<H1>
       <p>Please <a href=\"#{verification_url}\">click here</a> to validate your
       email. You will be asked to set a password to activate your account.</p>
     END_EMAIL

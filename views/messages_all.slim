@@ -1,0 +1,19 @@
+div class="row" style="vertical-align: bottom;"
+  div class="col-xs-9"
+    h3 All Messages
+  div class="col-xs-3"
+    button type="button" class="btn btn-success" data-toggle="modal" data-target="#newMessageModal" + New Message
+table class="table"
+  thead
+    tr
+      th Message title
+      th Message about
+      th Message body
+  tbody
+    - @messages.each do |message|
+      tr
+        td.title = message[:title]
+        td.about = message[:about]
+        td.body = message[:body]
+
+#include :project_new_partial
