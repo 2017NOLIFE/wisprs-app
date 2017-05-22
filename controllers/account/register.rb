@@ -3,7 +3,7 @@
 require 'sinatra'
 
 # Account related routes
-class WispersApp < Sinatra::Base
+class WispersBase < Sinatra::Base
   get '/account/register/?' do
     slim :register
   end
