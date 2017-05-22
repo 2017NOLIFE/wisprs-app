@@ -4,7 +4,7 @@ require 'rack-flash'
 require 'rack/ssl-enforcer'
 require 'rack/session/redis'
 
-# Secure chat based api
+# Secure chat based app
 class WispersBase < Sinatra::Base
   extend Econfig::Shortcut
 

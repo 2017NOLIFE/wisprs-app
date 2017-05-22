@@ -3,7 +3,7 @@
 require 'sinatra'
 
 # Account related routes
-class WispersApp < Sinatra::Base
+class WispersBase < Sinatra::Base
   def authenticate_login(auth)
     @current_account = auth['account']
     @auth_token = auth['auth_token']
