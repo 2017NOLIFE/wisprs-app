@@ -4,29 +4,23 @@ require 'sinatra'
 
 # Account related routes
 class WispersBase < Sinatra::Base
-  def authenticate_login(auth)
-    @current_account = auth['account']
-    @auth_token = auth['auth_token']
-    current_session = SecureSession.new(session)
-    current_session.set(:current_account, @current_account)
-    current_session.set(:auth_token, @auth_token)
-  end
   get '/account/login/?' do
     slim :login
   end
 
   post '/account/login/?' do
-    auth = FindAuthenticatedAccount.new(settings.config).call(
+    @current_account = FindAuthenticatedAccount.new(settings.config).call(
       username: params[:username], password: params[:password]
     )
 
-    if auth
-      authenticate_login(auth)
+    if @current_account
+      SecureSession.new(session).set(:current_account, @current_account)
+      puts "SESSION: #{session[:current_account]}"
       flash[:notice] = "Welcome back #{@current_account['username']}"
       redirect '/'
     else
       flash[:error] = 'Your username or password did not match our records'
-      redirect '/account/login/'
+      slim :login
     end
   end
 
@@ -42,8 +36,10 @@ class WispersBase < Sinatra::Base
   end
 
   get '/account/:username/?' do
-    halt_if_incorrect_user(params)
-
-    slim(:account)
+    if @current_account && @current_account['username'] == params[:username]
+      slim(:account)
+    else
+      redirect '/account/login'
+    end
   end
 end
