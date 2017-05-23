@@ -1,9 +1,14 @@
-h2 Create An Account
+h2 style='font-size:30pt;' Create An Account
+br
+br
 form action='/account/register' method='post' id='user-form'
-  label for='username' Username:
+  label for='username' style='font-size:16pt;' Username：
   input type='text' name='username' id='username_input'
   br
-  label for='email' Email:
+  br
+  label for='email' style='font-size:16pt;' Email：
   input type='text' name='email' id='email_input'
   br
-  input type='submit' id='registration-form-submit' class='submit' value='submit'
+
+  div class='col-md-4'
+  input type='submit' id='registration-form-submit' class='submit col-md-4 btn-primary btn-lg' value='submit' style='border:solid;margin-top:20pt;'
