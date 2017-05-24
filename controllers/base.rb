@@ -57,5 +57,14 @@ class WispersBase < Sinatra::Base
 
   get '/' do
     slim :home
+  
   end
 end
+
+# require 'openssl'
+# require 'base64'
+# string = 'Hello World!';
+# public_key_file = Dir.pwd+'/controllers/saavizworld.pem';
+#     public_key = OpenSSL::PKey::RSA.new(File.read(public_key_file))
+#     puts public_key;
+    
