@@ -49,7 +49,6 @@ class WispersBase < Sinatra::Base
       @key_message = GetPublicKey.new(settings.config)
                                   .call(current_account_id: @current_account['id'].to_s,
                                         auth_token: @auth_token)
-      p '-------????'
       p @key_message
       if @key_message != nil
         slim(:account)

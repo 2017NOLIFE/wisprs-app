@@ -8,6 +8,7 @@ class WispersBase < Sinatra::Base
       @messages = GetAllMessages.new(settings.config)
                                 .call(current_account: @current_account,
                                       auth_token: @auth_token)
+      p @messages
     end
     @messages ? slim(:messages_all) : redirect('/account/login')
   end
@@ -26,6 +27,29 @@ class WispersBase < Sinatra::Base
     else
       redirect '/login'
     end
+  end
+
+  get '/account/:username/new_message/' do
+    slim(:new_message)
+  end
+
+  post '/account/:username/new_message/?' do
+    result = CreateMessage.new(settings.config).call(
+      from_id: @current_account['id'].to_s,
+      to_id: params[:id_input],
+      title: params[:title_input],
+      about: params[:about_input],
+      expire_date: params[:expire_input],
+      status: params[:status_input],
+      body: params[:content_input]
+    )
+    if result
+      redirect '/'
+    else
+      flash[:notice] = 'Public Key Faili, Please Input Again'
+      redirect '/'
+    end
+    slim(:message_all)
   end
 =begin
   post '/account/:username/projects/:project_id/collaborators/?' do
