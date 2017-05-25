@@ -5,10 +5,12 @@ div class="container"
     div class="col-sm-2" Username:
     div class="col-sm-10"
       == @current_account['username']
+  br
   div class="row"
     div class="col-sm-2" Email:
     div class="col-sm-10"
       == @current_account['email']
+  br
   div class="row"
     div class="col-sm-2" Token:
     div class="col-sm-10"
@@ -16,3 +18,14 @@ div class="container"
       div id="token" class="collapse well"
         code class="force-wrap"
           == @auth_token
+  br
+  div class="row"
+    div class="col-sm-2" Public Key:
+    div class="col-sm-10" 
+      - if @key_message != ''
+        td #{@key_message['data']['attributes']['key']}
+      -else
+        textarea id='public_key_input'
+        br
+        a href='#'
+          input type='submit' id='registration-form-submit' class='submit btn-primary' value='submit' 

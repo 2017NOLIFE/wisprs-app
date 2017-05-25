@@ -20,7 +20,10 @@ class GetAllMessages
         title: msg['attributes']['title'],
         about: msg['attributes']['about'],
         status: msg['attributes']['status'],
-        body: msg['attributes']['body'] }
+        expire_date: msg['attributes']['expire_date'],
+        body: msg['attributes']['body'],
+        from_user: msg['relationships']['from']['username'],
+        to_user: msg['relationships']['to']['username'] }
     end
   end
 end

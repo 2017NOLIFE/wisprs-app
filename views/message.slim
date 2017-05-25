@@ -1,0 +1,39 @@
+div class="row" style="vertical-align: bottom;"
+  div class="col-xs-12" style='margin-bottom:20pt;'
+    h3 Messages Detail
+  
+  div class="col-xs-12" style='margin-bottom:70pt;'
+    - if @message
+      div align='left' style='background-color:gray;height:30pt;'
+        p style='color:white;font-size:21pt;margin-left:5pt;' FROM
+      div align='left' style='padding-left:15pt;font-size:15pt;background-color:#F8F8FF;'
+        br
+        p Message_ID：#{@message['id']}
+        br
+        p ID：#{@message['from']['id']}
+        br
+        p From：#{@message['from']['username']}
+        br
+        p E-mail：#{@message['from']['email']}
+        br
+      div align='left' style='background-color:gray;height:30pt;'
+        p style='color:white;font-size:21pt;margin-left:5pt;' CONTENT
+      div align='left' style='padding-left:15pt;font-size:15pt;background-color:#F8F8FF;min-height:500pt;'
+        br
+        p Title：#{@message['title']}
+        br
+        p About：#{@message['about']}
+        br
+        p Status：#{@message['status']}
+        br
+        p Expire date：#{@message['expire_date']}
+        hr
+        p Content：
+        p #{@message['body']}
+        br
+
+
+    - else
+      div
+
+#include :project_new_partial

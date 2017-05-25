@@ -12,7 +12,7 @@ class WispersBase < Sinatra::Base
     @messages ? slim(:messages_all) : redirect('/account/login')
   end
 
-  get '/account/:username/messages/:project_id/?' do
+  get '/account/:username/messages/:message_id/?' do
     if current_account?(params)
       @message = GetMessageDetails.new(settings.config)
                                   .call(message_id: params[:message_id],

@@ -6,14 +6,21 @@ div class="row" style="vertical-align: bottom;"
 table class="table"
   thead
     tr
+      th Message from
+      th Message to
       th Message title
       th Message about
-      th Message body
+      th Expire_date
+      th Detail
   tbody
     - @messages.each do |message|
-      tr
-        td.title = message[:title]
-        td.about = message[:about]
-        td.body = message[:body]
-
+        tr class='item_message'
+          td.title = message[:from_user]
+          td.title = message[:to_user]
+          td.title = message[:title]
+          td.about = message[:about]
+          td.body = message[:expire_date]
+          td.detail
+            a href= ''
+             img src='/arrow.png' style='width:18pt;margin-left:7pt;'
 #include :project_new_partial

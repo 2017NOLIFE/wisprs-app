@@ -45,7 +45,40 @@ class WispersBase < Sinatra::Base
 
   get '/account/:username/?' do
     halt_if_incorrect_user(params)
-
-    slim(:account)
+    if current_account?(params)
+      @key_message = GetPublicKey.new(settings.config)
+                                  .call(current_account_id: @current_account['id'].to_s,
+                                        auth_token: @auth_token)
+      p @key_message
+      if @key_message != nil
+        slim(:account)
+      else
+        @key_message = ''
+        slim(:account)
+      end
+    else
+      redirect '/login'
+    end 
   end
+
+  post '/account/c/:username/?' do
+    halt_if_incorrect_user(params)
+    if current_account?(params)
+      @key_message = CreatePublicKey.new(settings.config)
+                                  .call(current_account_id: @current_account['id'].to_s,
+                                        auth_token: @auth_token)
+      p @key_message
+      if @key_message != nil
+        slim(:account)
+      else
+        @key_message = ''
+        slim(:account)
+      end
+    else
+      redirect '/login'
+    end
+
+  end
+
+
 end
