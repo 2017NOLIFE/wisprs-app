@@ -25,7 +25,8 @@ div class="container"
       - if @key_message != ''
         td #{@key_message['data']['attributes']['key']}
       -else
-        textarea id='public_key_input'
-        br
-        a href='#'
-          input type='submit' id='registration-form-submit' class='submit btn-primary' value='submit' 
+        form action='/account/createpublickey' method='post' id='user-form'
+          textarea name='public_key_input' id='public_key_input'
+          br
+          a href='#'
+            input type='submit' id='registration-form-submit' class='submit btn-primary' value='submit' 

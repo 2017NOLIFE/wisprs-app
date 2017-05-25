@@ -49,6 +49,7 @@ class WispersBase < Sinatra::Base
       @key_message = GetPublicKey.new(settings.config)
                                   .call(current_account_id: @current_account['id'].to_s,
                                         auth_token: @auth_token)
+      p '-------????'
       p @key_message
       if @key_message != nil
         slim(:account)
@@ -61,23 +62,18 @@ class WispersBase < Sinatra::Base
     end 
   end
 
-  post '/account/c/:username/?' do
-    halt_if_incorrect_user(params)
-    if current_account?(params)
-      @key_message = CreatePublicKey.new(settings.config)
-                                  .call(current_account_id: @current_account['id'].to_s,
-                                        auth_token: @auth_token)
-      p @key_message
-      if @key_message != nil
-        slim(:account)
-      else
-        @key_message = ''
-        slim(:account)
-      end
+  post '/account/createpublickey/?' do
+    result = CreatePublicKey.new(settings.config).call(
+      current_account_id: @current_account['id'].to_s,
+      public_key: params[:public_key_input],
+      current_account_name: @current_account['username']
+    )
+    if result
+      redirect '/'
     else
-      redirect '/login'
+      flash[:notice] = 'Public Key Faili, Please Input Again'
+      redirect '/'
     end
-
   end
 
 
