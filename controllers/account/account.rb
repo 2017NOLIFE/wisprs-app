@@ -5,7 +5,6 @@ require 'sinatra'
 # Account related routes
 class WispersBase < Sinatra::Base
   def authenticate_login(auth)
-    puts "Auth: #{auth}"
     @current_account = auth['account']
     @auth_token = auth['auth_token']
     current_session = SecureSession.new(session)
@@ -50,7 +49,6 @@ class WispersBase < Sinatra::Base
       @key_message = GetPublicKey.new(settings.config)
                                   .call(current_account_id: @current_account['id'].to_s,
                                         auth_token: @auth_token)
-      p @key_message
       if @key_message != nil
         slim(:account)
       else
@@ -77,16 +75,16 @@ class WispersBase < Sinatra::Base
   end
 
   get '/github_callback/?' do
-    #begin
+    begin
       sso_account = FindGithubAccount.new(settings.config)
                                      .call(params['code'])
       authenticate_login(sso_account)
       redirect "/account/#{@current_account['id']}/messages"
-      #halt
-    #rescue => e
-      #flash[:error] = 'Could not sign in using Github'
-      #puts "RESCUE: #{e}"
-      #redirect 'account/login'
-    #end
+      halt
+    rescue => e
+      flash[:error] = 'Could not sign in using Github'
+      puts "RESCUE: #{e}"
+      redirect 'account/login'
+    end
   end
 end

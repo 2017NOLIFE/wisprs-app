@@ -22,6 +22,6 @@ table class="table"
           td.about = message[:about]
           td.body = message[:expire_date]
           td.detail
-            a href= '/account/#{@current_account['username']}/messages/#{@current_account['id']}'
+            a href= '/account/#{@current_account['id']}/messages/#{message[:id]}'
              img src='/arrow.png' style='width:18pt;margin-left:7pt;'
 #include :project_new_partial

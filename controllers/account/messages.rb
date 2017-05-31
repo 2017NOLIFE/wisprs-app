@@ -3,6 +3,7 @@ require 'sinatra'
 # Base class for Whispers Web Application
 class WispersBase < Sinatra::Base
   get '/account/:id/messages/?' do
+    puts "#{current_account?(params)}"
     if current_account?(params)
       @messages = GetAllMessages.new(settings.config)
                                 .call(current_account: @current_account,
@@ -25,11 +26,11 @@ class WispersBase < Sinatra::Base
         redirect "/account/#{params[:id]}/messages"
       end
     else
-      redirect '/login'
+      redirect '/account/login'
     end
   end
 
-  get '/account/:username/new_message/' do
+  get '/account/:id/new_message/' do
     slim(:new_message)
   end
 
@@ -44,12 +45,11 @@ class WispersBase < Sinatra::Base
       body: params[:content_input]
     )
     if result
-      redirect '/'
+      redirect "/account/#{params[:id]}/messages"
     else
-      flash[:notice] = 'Public Key Faili, Please Input Again'
+      flash[:notice] = 'Public Key Fail, Please Input Again'
       redirect '/'
     end
-    slim(:message_all)
   end
 =begin
   post '/account/:username/projects/:project_id/collaborators/?' do
