@@ -40,7 +40,7 @@ class WispersBase < Sinatra::Base
   use Rack::Flash
 
   def current_account?(params)
-    @current_account && @current_account['username'] == params[:username]
+    @current_account && @current_account['id'].to_i == params[:id].to_i
   end
 
   def halt_if_incorrect_user(params)
@@ -57,7 +57,7 @@ class WispersBase < Sinatra::Base
 
   get '/' do
     slim :home
-  
+
   end
 end
 
@@ -67,4 +67,3 @@ end
 # public_key_file = Dir.pwd+'/controllers/saavizworld.pem';
 #     public_key = OpenSSL::PKey::RSA.new(File.read(public_key_file))
 #     puts public_key;
-    

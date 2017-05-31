@@ -1,5 +1,5 @@
 p
-  div class='col-md-3'
+  div class='col-sm-4'
   form method='post' action='/account/login' id='form-login' class='col-md-6' style='font-family:Microsoft JhengHei;'
 
   	div class='col-md-2'
@@ -11,8 +11,8 @@ p
     input type='text' name='username' class='col-md-6' id='input-username'
     div class='col-md-3'
     br
-    
-    label for='password' class='col-md-12' style='font-size:22pt;margin-top:20pt;' Password   
+
+    label for='password' class='col-md-12' style='font-size:22pt;margin-top:20pt;' Password
     div class='col-md-3'
     input type='password' name='password' class='col-md-6' id='input-password'
     div class='col-md-3'
@@ -21,3 +21,9 @@ p
     div class='col-md-12' style='margin-bottom:20pt;'
     div class='col-md-3'
     input type='submit' id='button-login' class='col-md-6 btn-primary btn-lg' value='login' style='border:solid;'
+
+  div class="col-sm-4"
+    h3 class="text-center" Login with Github
+    a class="btn-block btn-social btn-lg btn-github" href=@gh_url
+      span class="fa fa-github"
+      == "Github Sign-in"

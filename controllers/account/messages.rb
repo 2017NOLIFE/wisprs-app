@@ -2,18 +2,18 @@ require 'sinatra'
 
 # Base class for Whispers Web Application
 class WispersBase < Sinatra::Base
-  get '/account/:username/messages/?' do
-
+  get '/account/:id/messages/?' do
     if current_account?(params)
       @messages = GetAllMessages.new(settings.config)
                                 .call(current_account: @current_account,
                                       auth_token: @auth_token)
       p @messages
     end
+
     @messages ? slim(:messages_all) : redirect('/account/login')
   end
 
-  get '/account/:username/messages/:message_id/?' do
+  get '/account/:id/messages/:message_id/?' do
     if current_account?(params)
       @message = GetMessageDetails.new(settings.config)
                                   .call(message_id: params[:message_id],
@@ -22,7 +22,7 @@ class WispersBase < Sinatra::Base
         slim(:message)
       else
         flash[:error] = 'We cannot find this message in your account'
-        redirect "/account/#{params[:username]}/messages"
+        redirect "/account/#{params[:id]}/messages"
       end
     else
       redirect '/login'
@@ -33,7 +33,7 @@ class WispersBase < Sinatra::Base
     slim(:new_message)
   end
 
-  post '/account/:username/new_message/?' do
+  post '/account/:id/new_message/?' do
     result = CreateMessage.new(settings.config).call(
       from_id: @current_account['id'].to_s,
       to_id: params[:id_input],

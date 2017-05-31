@@ -14,6 +14,7 @@ class WispersBase < Sinatra::Base
   end
 
   get '/account/login/?' do
+    @gh_url = GetApiGithubSsoUrl.new(settings.config).call
     slim :login
   end
 
@@ -43,7 +44,7 @@ class WispersBase < Sinatra::Base
     slim(:register)
   end
 
-  get '/account/:username/?' do
+  get '/account/:id/?' do
     halt_if_incorrect_user(params)
     if current_account?(params)
       @key_message = GetPublicKey.new(settings.config)
@@ -58,7 +59,7 @@ class WispersBase < Sinatra::Base
       end
     else
       redirect '/login'
-    end 
+    end
   end
 
   post '/account/createpublickey/?' do
@@ -75,5 +76,17 @@ class WispersBase < Sinatra::Base
     end
   end
 
-
+  get '/github_callback/?' do
+    #begin
+      sso_account = FindGithubAccount.new(settings.config)
+                                     .call(params['code'])
+      authenticate_login(sso_account)
+      redirect "/account/#{@current_account['id']}/messages"
+      #halt
+    #rescue => e
+      #flash[:error] = 'Could not sign in using Github'
+      #puts "RESCUE: #{e}"
+      #redirect 'account/login'
+    #end
+  end
 end

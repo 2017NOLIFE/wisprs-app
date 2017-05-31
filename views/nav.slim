@@ -19,7 +19,7 @@ nav role="navigation" class="navbar navbar-default navbar-static-top"
               = "#{@current_account['username']}"
             ul class=-"dropdown-menu"
               li
-                a href="/account/#{@current_account['username']}" account
+                a href="/account/#{@current_account['id']}" account
               li
                 a href='/account/logout' logout
         - else
