@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'sinatra'
+require 'econfig'
 
 # Account related routes
 class WispersBase < Sinatra::Base
@@ -67,10 +68,10 @@ class WispersBase < Sinatra::Base
       current_account_name: @current_account['username']
     )
     if result
-      redirect '/'
+      redirect "/account/#{@current_account['id']}"
     else
-      flash[:notice] = 'Public Key Faili, Please Input Again'
-      redirect '/'
+      flash[:notice] = 'Public Key Fail, Please Input Again'
+      redirect "/account/#{@current_account['id']}"
     end
   end
 

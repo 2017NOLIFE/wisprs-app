@@ -41,14 +41,14 @@ class WispersBase < Sinatra::Base
       title: params[:title_input],
       about: params[:about_input],
       expire_date: params[:expire_input],
-      status: params[:status_input],
+      status: 'UNREAD',
       body: params[:content_input]
     )
     if result
       redirect "/account/#{params[:id]}/messages"
     else
       flash[:notice] = 'Public Key Fail, Please Input Again'
-      redirect '/'
+      redirect "/account/#{params[:id]}/messages"
     end
   end
 =begin

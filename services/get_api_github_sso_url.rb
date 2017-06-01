@@ -1,4 +1,7 @@
 # Get the github sso url with client id
+require 'econfig'
+require 'http'
+
 class GetApiGithubSsoUrl
   def initialize(config)
     @config = config

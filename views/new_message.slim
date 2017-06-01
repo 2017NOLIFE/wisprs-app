@@ -3,7 +3,7 @@ div class="row" style="vertical-align: bottom;"
     h3 New A Messages
   
   div class="col-xs-12" style='margin-bottom:70pt;'
-    form action='/account/#{@current_account['username']}/new_message/' method='post' id='user-form'
+    form action='/account/#{@current_account['id']}/new_message/' method='post' id='user-form'
       div align='left' style='background-color:gray;height:30pt;'
         p style='color:white;font-size:21pt;margin-left:5pt;' SENT TO
       div align='left' style='padding-left:15pt;font-size:15pt;background-color:#F8F8FF;'
@@ -22,8 +22,8 @@ div class="row" style="vertical-align: bottom;"
         p About：
         input type='text' name='about_input' id='about_input'
         br
-        p Status：
-        input type='text' name='status_input' id='status_input'
+        p style='display:none;' Status：
+        input style='display:none;' type='text' name='status_input' id='status_input'
         br
         p Expire date：
         input type='text' name='expire_input' id='expire_input'
