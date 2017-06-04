@@ -37,7 +37,8 @@ class WispersBase < Sinatra::Base
   post '/account/:id/new_message/?' do
     result = CreateMessage.new(settings.config).call(
       from_id: @current_account['id'].to_s,
-      to_id: params[:id_input],
+      to_id: '0',
+      receiver_name: params[:receiver_input],
       title: params[:title_input],
       about: params[:about_input],
       expire_date: params[:expire_input],

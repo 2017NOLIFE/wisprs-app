@@ -6,10 +6,11 @@ class CreateMessage
     @config = config
   end
 
-  def call(from_id:,to_id:,title:,about:,expire_date:,status:,body:)
+  def call(from_id:,to_id:,receiver_name:,title:,about:,expire_date:,status:,body:)
     response = HTTP.post("#{@config.API_URL}/accounts/#{from_id}/send_message/",
                          json: { from_id: from_id,
                                   to_id: to_id,
+                                  receiver_name: receiver_name,
                                   title: title,
                                   about: about,
                                   expire_date: expire_date,

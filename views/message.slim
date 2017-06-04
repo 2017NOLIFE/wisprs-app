@@ -1,8 +1,8 @@
 div class="row" style="vertical-align: bottom;"
-  div class="col-xs-12" style='margin-bottom:20pt;'
-    h3 Messages Detail
+  div class="col-xs-12" style='margin:0pt;'
+    h3 style="padding:0;margin:0;color:gray;font-size:25pt;height:80pt;padding-top:20pt;" Messages Detail
   
-  div class="col-xs-12" style='margin-bottom:70pt;'
+  div class="col-xs-12" style='margin-top:1pt;'
     - if @message
       div align='left' style='background-color:gray;height:30pt;'
         p style='color:white;font-size:21pt;margin-left:5pt;' FROM
@@ -13,6 +13,8 @@ div class="row" style="vertical-align: bottom;"
         p ID：#{@message['from']['id']}
         br
         p From：#{@message['from']['username']}
+        br
+        p To：#{@message['to']['username']}
         br
         p E-mail：#{@message['from']['email']}
         br

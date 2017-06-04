@@ -1,10 +1,10 @@
 div class="row" style="vertical-align: bottom;"
-  div class="col-xs-9"
-    h3 All Messages
-  div class="col-xs-3"
-    a href='/account/#{@current_account['username']}/new_message/'
-      button type="button" class="btn btn-success" data-toggle="modal" data-target="#newMessageModal" + New Message
-table class="table"
+  div class="col-xs-12" align='center'
+    h3 style="font-size:18pt;"
+      All Messages
+      a href='/account/#{@current_account['username']}/new_message/' style="float:right;margin-right:0pt;"
+        button type="button" class="btn btn-success" data-toggle="modal" data-target="#newMessageModal" + New Message
+table class="table" style="width:90%;margin-top:20pt;font-size:12pt;font-family:Microsoft JhengHei;"
   thead
     tr
       th Message from
@@ -14,8 +14,10 @@ table class="table"
       th Expire_date
       th Detail
   tbody
+    - i=0
     - @messages.each do |message|
-        tr class='item_message'
+      - if (i%2) == 0
+        tr class='item_message' style="height:50pt;background-color:#F5F5F5;"
           td.title = message[:from_user]
           td.title = message[:to_user]
           td.title = message[:title]
@@ -23,5 +25,17 @@ table class="table"
           td.body = message[:expire_date]
           td.detail
             a href= '/account/#{@current_account['id']}/messages/#{message[:id]}'
-             img src='/arrow.png' style='width:18pt;margin-left:7pt;'
+             img src='/arrow.png' style='width:18pt;margin-left:10pt;'
+        - i = i+1
+      - else
+        tr class='item_message' style="height:50pt;"
+          td.title = message[:from_user]
+          td.title = message[:to_user]
+          td.title = message[:title]
+          td.about = message[:about]
+          td.body = message[:expire_date]
+          td.detail
+            a href= '/account/#{@current_account['id']}/messages/#{message[:id]}'
+             img src='/arrow.png' style='width:18pt;margin-left:10pt;'
+        - i = i+1
 #include :project_new_partial
