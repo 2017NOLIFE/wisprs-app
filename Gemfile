@@ -11,8 +11,10 @@ gem 'sinatra'
 gem 'slim'
 
 # Security
+gem 'dry-validation'
 gem 'rack-ssl-enforcer'
 gem 'rbnacl-libsodium'
+gem 'secure_headers'
 
 # Communication
 gem 'http'
@@ -32,5 +34,4 @@ end
 
 group :development do
   gem 'rerun'
-  gem 'mock_redis'
 end

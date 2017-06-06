@@ -9,6 +9,12 @@ class WispersBase < Sinatra::Base
   end
 
   post '/account/register/?' do
+    registration = Registration.call(params)
+    if registration.failure?
+      flash[:error] = 'Please enter a valid username and email'
+      redirect 'account/register'
+      halt
+    end
     begin
       EmailRegistrationVerification.new(settings.config).call(
         username: params[:username],
@@ -33,9 +39,12 @@ class WispersBase < Sinatra::Base
   end
 
   post '/account/register/:token_secure/verify' do
-    redirect "/register/#{params[:token_secure]}/verify" if
-      (params[:password] != params[:password_confirm]) ||
-      params[:password].empty?
+    passwords = Passwords.call(params)
+    if passwords.failure?
+      flash[:error] = passwords.messages.values.join('; ')
+      redirect "/account/register/#{params[:token_secure]}/verify"
+      halt
+    end
 
     new_account = SecureMessage.decrypt(params[:token_secure])
     result = CreateVerifiedAccount.new(settings.config).call(
@@ -46,7 +55,7 @@ class WispersBase < Sinatra::Base
 
     if result
       flash[:notice] = 'Please login with your new username and password'
-      redirect '/account/login'
+      redirect '/auth/login'
     else
       flash[:error] = 'Your account could not be created. Please try again'
       redirect '/account/register'

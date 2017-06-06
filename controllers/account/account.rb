@@ -13,15 +13,20 @@ class WispersBase < Sinatra::Base
     current_session.set(:auth_token, @auth_token)
   end
 
-  get '/account/login/?' do
+  get '/auth/login/?' do
     @gh_url = GetApiGithubSsoUrl.new(settings.config).call
     slim :login
   end
 
-  post '/account/login/?' do
-    auth = FindAuthenticatedAccount.new(settings.config).call(
-      username: params[:username], password: params[:password]
-    )
+  post '/auth/login/?' do
+    credentials = LoginCredentials.call(params)
+
+    if credentials.failure?
+      flash[:error] = 'Please enter both username and password'
+      redirect '/auth/login'
+    end
+
+    auth = FindAuthenticatedAccount.new(settings.config).call(credentials)
 
     if auth
       authenticate_login(auth)
@@ -33,46 +38,11 @@ class WispersBase < Sinatra::Base
     end
   end
 
-  get '/account/logout/?' do
+  get '/auth/logout/?' do
     @current_account = nil
     SecureSession.new(session).delete(:current_account)
     flash[:notice] = 'You have logged out - please login again to use this site'
-    slim :login
-  end
-
-  get '/account/register/?' do
-    slim(:register)
-  end
-
-  get '/account/:id/?' do
-    halt_if_incorrect_user(params)
-    if current_account?(params)
-      @key_message = GetPublicKey.new(settings.config)
-                                  .call(current_account_id: @current_account['id'].to_s,
-                                        auth_token: @auth_token)
-      if @key_message != nil
-        slim(:account)
-      else
-        @key_message = ''
-        slim(:account)
-      end
-    else
-      redirect '/login'
-    end
-  end
-
-  post '/account/createpublickey/?' do
-    result = CreatePublicKey.new(settings.config).call(
-      current_account_id: @current_account['id'].to_s,
-      public_key: params[:public_key_input],
-      current_account_name: @current_account['username']
-    )
-    if result
-      redirect "/account/#{@current_account['id']}"
-    else
-      flash[:notice] = 'Public Key Fail, Please Input Again'
-      redirect "/account/#{@current_account['id']}"
-    end
+    redirect '/auth/login'
   end
 
   get '/github_callback/?' do
@@ -85,7 +55,31 @@ class WispersBase < Sinatra::Base
     rescue => e
       flash[:error] = 'Could not sign in using Github'
       puts "RESCUE: #{e}"
-      redirect 'account/login'
+      redirect '/auth/login'
     end
+  end
+
+  get '/account/:id/?' do
+    halt_if_incorrect_user(params)
+    if current_account?(params)
+      @key_message = GetAccountPublicKey.new(settings.config)
+                                 .call(current_account_id: @current_account['id'].to_s,
+                                       auth_token: @auth_token)
+      @key_message = '' unless !@key_message.nil?
+
+      slim(:account)
+    else
+      redirect '/auth/login'
+    end
+  end
+
+  post '/account/createpublickey/?' do
+    result = CreatePublicKey.new(settings.config).call(
+      current_account_id: @current_account['id'].to_s,
+      public_key: params[:public_key_input],
+      current_account_name: @current_account['username']
+    )
+    flash[:error] = 'Public key fail, please input again!!!' unless result
+    redirect "/account/#{@current_account['id']}"
   end
 end

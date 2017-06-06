@@ -1,4 +1,4 @@
-folders = 'lib,config,services,controllers'
+folders = 'lib,config,services,forms,controllers'
 Dir.glob("./{#{folders}}/init.rb").each do |file|
   require file
 end

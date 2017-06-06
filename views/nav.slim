@@ -21,9 +21,9 @@ nav role="navigation" class="navbar navbar-default navbar-static-top" style="hei
               li
                 a href="/account/#{@current_account['id']}" account
               li
-                a href='/account/logout' logout
+                a href='/auth/logout' logout
         - else
           li
-            a href='/account/login' style="color:white;" login
+            a href='/auth/login' style="color:white;" login
           li
             a href='/account/register' style="color:white;" register

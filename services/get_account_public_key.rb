@@ -1,24 +1,14 @@
 require 'http'
 
 # Returns all the messages belonging to an account
-class GetPublicKey
+class GetAccountPublicKey
   def initialize(config)
     @config = config
   end
 
   def call(current_account_id:, auth_token:)
-    p current_account_id
     response = HTTP.auth("Bearer #{auth_token}")
-                   .get("#{@config.API_URL}/public_keys/"+current_account_id)
+                   .get("#{@config.API_URL}/accounts/#{current_account_id}/public_keys")
     response.code == 200 ? response.parse : nil
   end
-
-  private
-
-  # def extract_key(keys)
-  #   keys['data'].map do |msg|
-  #     { key: msg['key'],
-  #       name: msg['name'], }
-  #   end
-  # end
 end
