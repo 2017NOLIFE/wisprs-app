@@ -5,6 +5,7 @@ require 'sinatra'
 require 'slim/include'
 require 'rack-flash'
 require 'rack/session/redis'
+require 'rack/flash/test'
 
 # Base class for Secure chat Web Application
 class WispersBase < Sinatra::Base
