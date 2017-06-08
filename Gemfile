@@ -9,6 +9,7 @@ gem 'puma'
 gem 'rack-flash3'
 gem 'sinatra'
 gem 'slim'
+gem 'rack-flash-session'
 
 # Security
 gem 'dry-validation'
