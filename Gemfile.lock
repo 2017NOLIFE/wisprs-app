@@ -66,6 +66,8 @@ GEM
     public_suffix (2.0.5)
     puma (3.8.2)
     rack (1.6.5)
+    rack-flash-session (1.0.2)
+      rack (>= 1.0)
     rack-flash3 (1.0.5)
       rack
     rack-protection (1.5.3)
@@ -135,6 +137,7 @@ DEPENDENCIES
   minitest-rg
   pony
   puma
+  rack-flash-session
   rack-flash3
   rack-ssl-enforcer
   rake
