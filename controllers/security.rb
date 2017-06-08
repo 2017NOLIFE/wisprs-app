@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
+require 'econfig'
 require 'rack/ssl-enforcer'
+require 'rack/session/redis'
 require 'secure_headers'
 
 # Security settings for Secure Chat
 class WispersBase < Sinatra::Base
+  extend Econfig::Shortcut
   ONE_MONTH = 2_592_000 # ~ one month in seconds
 
   configure :production do

@@ -42,7 +42,6 @@ class WispersBase < Sinatra::Base
 
   get '/' do
     slim :home
-
   end
 end
 
